@@ -1,0 +1,20 @@
+package RGS;
+
+import ddt.lang.*;
+import external.*;
+
+domain RGS {
+	variables: {
+	dtenum State {Init,PrepareGesture,Judge,AskforPlayAgain}
+	public static DTenum state = State.Init; //initial value
+	//public static ListIterator<Player> playerIterator = players.listIterator();
+	}
+
+	events:{
+	Init;
+	}
+	resources:{
+	public static Player realPlayer;
+	public static Player aiPlayer;
+	}
+}

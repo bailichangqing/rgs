@@ -1,0 +1,4 @@
+Scissor
+Rock
+nothing
+Scissor

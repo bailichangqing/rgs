@@ -1,0 +1,71 @@
+package RGS;
+
+import ddt.lang.*;
+import external.*;
+import java.util.Scanner;
+import java.io.*;
+import java.lang.*;
+
+
+anchor feature RGSfeature
+{
+	domain: RGS;
+	initialize
+	{
+		condition: state.equalsToConstant(State.Init);
+		event:Init;
+		{
+			System.out.println("game begins");
+			state = State.PrepareGesture;
+		}
+	}
+	
+	enterPrepareGesture
+	{
+		condition: state.equalsToConstant(State.PrepareGesture);
+		event: enter;
+		{
+			realPlayer.askforRGS();
+			aiPlayer.askforRGS();
+			state = State.Judge;
+		}
+	}
+	
+	enterJudge
+	{
+		condition: state.equalsToConstant(State.Judge);
+		event:enter;
+		{
+			System.out.println("your gesture is " + realPlayer.getguesture().toString());
+			System.out.println("AIPlayer's gesture is " + aiPlayer.getguesture().toString());
+			switch(RockGloveScissor.judge(realPlayer.getguesture(),aiPlayer.getguesture()))
+			{
+				case 1:
+					System.out.println("player 1 won!");
+					break;
+				case 0:
+					System.out.println("draw");
+					break;
+				case -1:
+					System.out.println("player 2 won");
+					break;
+			}
+			state = State.AskforPlayAgain;
+		}
+	}
+
+	enterAskforPlayAgain
+	{
+		condition: state.equalsToConstant(State.AskforPlayAgain);
+		event:enter;
+		{
+			Scanner input_scanner = new Scanner(System.in);
+			System.out.println("do you want to play again? y:yes n:no");
+			String result = input_scanner.nextLine();
+			if (result.equals("y"))
+			{
+				state = State.PrepareGesture;
+			}
+		}
+	}
+}
